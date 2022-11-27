@@ -1,0 +1,51 @@
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.12.1)
+PROJECT(server)
+
+set(OS_FILE_PATH)
+set(OS_LIST)
+MESSAGE(STATUS "CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+	set(OS_FILE_PATH "os/linux")
+    MESSAGE(STATUS "current platform: Linux")
+
+elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    # 导入windows相关的静态库
+    link_libraries(ws2_32)
+    set(OS_FILE_PATH "os/win")
+    MESSAGE(STATUS "current platform: Windows")
+
+elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
+	set(OS_FILE_PATH "os/android")
+    MESSAGE(STATUS "current platform: Android") 
+
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+	set(OS_FILE_PATH "os/mac")
+    MESSAGE(STATUS "current platform: Apple")
+else()  
+    MESSAGE(STATUS "other platform: ${CMAKE_SYSTEM_NAME}")  
+endif()
+
+
+# 导入${OS_FILE_PATH}目录，它的文件就可以出现在#include <xx.h>上
+include_directories(${OS_FILE_PATH})
+# 自动查找${OS_FILE_PATH}目录下的源文件文件和头文件
+file(GLOB_RECURSE OS_LIST "${OS_FILE_PATH}/*.cpp" "${OS_FILE_PATH}/*.cc" "${OS_FILE_PATH}/*.h" "${OS_FILE_PATH}/*.hpp" "${OS_FILE_PATH}/*.c")
+
+set(SRC_FILE_PATH src)
+# 加入包含文件目录，它的文件就可以出现在#include <xx.h>上
+include_directories(${SRC_FILE_PATH})
+#自动查找源文件
+file(GLOB_RECURSE SRC_LIST 
+	"${SRC_FILE_PATH}/*.cpp" 
+	"${SRC_FILE_PATH}/*.cc" 
+	"${SRC_FILE_PATH}/*.h" 
+	"${SRC_FILE_PATH}/*.hpp"  
+	"${SRC_FILE_PATH}/*.c" 
+	)
+#执行程序和源代码
+add_executable(server ${SRC_LIST} ${OS_LIST})
+
+#可以有多个add_executable，这样可以批量生成多个工程项目，就可以编译多个项目，获得多个执行程序
+# add_executable(server1 ${SRC_LIST} ${OS_LIST})
+# add_executable(server3 ${SRC_LIST} ${OS_LIST})
