@@ -1,0 +1,6 @@
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.12.1)
+PROJECT(server)
+
+add_executable(simplemachine src/simplemachine.cpp)
+add_executable(demo src/demo.cpp)
