@@ -1,4 +1,7 @@
 **交流QQ群：963944097**
+github源码:https://github.com/skynetlua/design_cross_platform_server
+
+## 从零设计跨平台C/C++服务器框架
 
 忘记所有的一切，从零摸索一切，设计一款服务器框架。
 先摸索可能的技术，在其中选择方案，靠个人的经验喜好等去设计一款服务器框架。
